@@ -40,3 +40,9 @@ jobs:
           echo "$PRIVATE_KEY" > private_key.pem
           chmod 600 private_key.pem
           scp -i private_key.pem -o StrictHostKeyChecking=no -r target/*.jar $USERNAME@$HOST:~/
+
+    - name: Run PWD
+      run: pwd
+    - name: Run ls -al
+      run: ls -al
+        
