@@ -41,6 +41,4 @@ jobs:
         key: $PRIVATE_KEY
         host: $HOST
         username: $USERNAME
-        script:
-          nohup java -jar *.jar &
         
