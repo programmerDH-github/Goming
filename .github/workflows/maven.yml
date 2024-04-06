@@ -30,17 +30,17 @@ jobs:
     - name: Build with Maven
       run: mvn -B package --file pom.xml
 
-    - name: Publish to GitHub Packages Apache Maven
+    - name: Run scripts in server
+      uses: appleboy/ssh-action@master
       env:
           PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
           HOST: ${{ secrets.SERVER_HOST }}
           USERNAME: ${{ secrets.SERVER_USERNAME }}
           PORT: ${{ secrets.SERVER_PORT }}
-      run: |
-          echo "$PRIVATE_KEY" > private_key.pem
-          chmod 600 private_key.pem
-          scp -i private_key.pem -o StrictHostKeyChecking=no -r target/*.jar $USERNAME@$HOST:~/
-          ssh -i private_key.pem -o StrictHostKeyChecking=no $USERNAME@$HOST
-            # pgrep java | xargs kill -9 || true
-            nohup java -jar *.jar &
+      with:
+        key: $PRIVATE_KEY
+        host: $HOST
+        username: $USERNAME
+        script:
+          nohup java -jar *.jar &
         
