@@ -41,6 +41,6 @@ jobs:
           chmod 600 private_key.pem
           scp -i private_key.pem -o StrictHostKeyChecking=no -r target/*.jar $USERNAME@$HOST:~/
           ssh -i private_key.pem -o StrictHostKeyChecking=no $USERNAME@$HOST
-            pgrep java | xargs kill -9 || true
-            # nohup java -jar *.jar &
+            # pgrep java | xargs kill -9 || true
+            nohup java -jar *.jar &
         
