@@ -29,3 +29,14 @@ jobs:
         cache: maven
     - name: Build with Maven
       run: mvn -B package --file pom.xml
+
+    - name: Publish to GitHub Packages Apache Maven
+      env:
+          PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          HOST: ${{ secrets.SERVER_HOST }}
+          USERNAME: ${{ secrets.SERVER_USERNAME }}
+          PORT: ${{ secrets.SERVER_PORT }}
+      run: |
+          echo "$PRIVATE_KEY" > private_key.pem
+          chmod 600 private_key.pem
+          scp -i private_key.pem -P $PORT -o StrictHostKeyChecking=no -r target/*.jar $USERNAME@$HOST:~/
