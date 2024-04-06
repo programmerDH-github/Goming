@@ -17,22 +17,18 @@ import io.swagger.v3.oas.models.security.SecurityScheme;
 public class SwaggerConfig implements WebMvcConfigurer {
 	
 	@Bean
-    public OpenAPI openAPI(){
-        SecurityScheme securityScheme = new SecurityScheme()
-                .type(SecurityScheme.Type.HTTP).scheme("bearer").bearerFormat("JWT")
-                .in(SecurityScheme.In.HEADER).name("Authorization");
-        SecurityRequirement securityRequirement = new SecurityRequirement().addList("bearerAuth");
+	  public OpenAPI api() {
+	    SecurityScheme apiKey = new SecurityScheme()
+	      .type(SecurityScheme.Type.APIKEY)
+	      .in(SecurityScheme.In.HEADER)
+	      .name("Authorization");
 
-        return new OpenAPI()
-                .components(new Components().addSecuritySchemes("bearerAuth", securityScheme))
-                .security(Arrays.asList(securityRequirement));
-    }
-//	
-//	@Bean
-//    public GroupedOpenApi publicApi() {
-//        return GroupedOpenApi.builder().group("public")
-//                .pathsToMatch("/login") // Add paths that should not be secured
-//                .build();
-//    }
+	    SecurityRequirement securityRequirement = new SecurityRequirement()
+	      .addList("Bearer Token");
+
+	    return new OpenAPI()
+	      .components(new Components().addSecuritySchemes("Bearer Token", apiKey))
+	      .addSecurityItem(securityRequirement);
+	  }
 
 }
