@@ -44,6 +44,7 @@ public class WebConfig {
             )
 			.authorizeHttpRequests(authorizeRequests ->
 				authorizeRequests
+					.requestMatchers("/", "/**").permitAll()
 					.requestMatchers("/register", "/login/**").permitAll()
 					.requestMatchers("/v3/**", "/swagger-ui/**").permitAll()
 					.requestMatchers("/posts/**", "/api/v1/posts/**").hasRole("USER")
