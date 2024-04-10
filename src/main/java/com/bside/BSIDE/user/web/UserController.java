@@ -130,12 +130,6 @@ public class UserController {
 		return new ResponseEntity<>(loginResponse, HttpStatus.OK);
 	}
 	
-	@PostMapping(value = "/get/test")
-	@Operation(summary = "test") public ResponseEntity<?> log(String email) {
-		System.out.println(redisDao.getValues(email));
-		return new ResponseEntity<>(HttpStatus.OK);
-	}
-	
 	@PostMapping(value = "/logout")
 	@Operation(summary = "로그아웃")
 	public ResponseEntity<Void> logout(HttpServletRequest servletRequest) {
