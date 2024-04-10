@@ -55,7 +55,7 @@ spring:
     
   data:
     redis:
-      host: 127.0.0.1
+      host: 43.203.64.62
       port: 7000
       #password: Go!donghun84*
 
