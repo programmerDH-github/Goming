@@ -55,9 +55,9 @@ spring:
     
   data:
     redis:
-      host: localhost
+      host: 43.203.64.62
       port: 6379
-      password: Godonghun84
+      #password: Godonghun84
 
 mybatis: 
   mapper-locations: classpath:sqlmap/mapper/**/*.xml
