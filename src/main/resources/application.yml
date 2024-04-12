@@ -56,7 +56,7 @@ spring:
   data:
     redis:
       host: localhost
-      port: 8443
+      port: 9986
       password: Go!donghun84$
 
 mybatis: 
