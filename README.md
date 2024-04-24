@@ -1,21 +1,24 @@
-# 14_3_BE
+# 14기 3팀의 BackEnd
 
 ### Stack
 ```
-SpringBoot 
+Java, Spring Boot
 ```
 
-### Features 🌿
+### Libraries🌿
 ```
-Swagger
-etc...
+jjwt
+security
+redis
 ```
 
-### Controller, Service 주석 예시
+### Page, Component 제목 주석 예시
 ```
 /**
- * @desc 로그인 기능
+ * @설명 로그인 API
  * @작성자 이동훈
- * @일자 2024.04.05.
+ * @일자 2023.03.08.
+ * @내용 로그인 인증
+ * @TODO login
  */
 ```
