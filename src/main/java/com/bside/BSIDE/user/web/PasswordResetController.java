@@ -7,6 +7,8 @@ import java.util.Random;
 
 
 import com.bside.BSIDE.user.domain.EmailDto;
+
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -33,10 +35,12 @@ public class PasswordResetController {
 
 	private final UserService userService;
 	private final EmailService emailService;
+	private final PasswordEncoder passwordEncoder;
 
-	public PasswordResetController(UserService userService, EmailService emailService) {
+	public PasswordResetController(UserService userService, EmailService emailService, PasswordEncoder passwordEncoder) {
 		this.userService = userService;
 		this.emailService = emailService;
+		this.passwordEncoder = passwordEncoder;
 	}
 
 	@PostMapping("/password-reset")
@@ -64,7 +68,7 @@ public class PasswordResetController {
 		}
 
 		// 4. 임시 비밀번호 저장
-		userService.saveTemporaryPassword(param.getEmail(), temporaryPassword);
+		userService.saveTemporaryPassword(param.getEmail(), passwordEncoder.encode(temporaryPassword));
 
 		return "임시 비밀번호가 이메일로 전송되었습니다.";
 	}
@@ -77,11 +81,12 @@ public class PasswordResetController {
 
 	/* 임시 비밀번호 생성 */
 	public String generateTemporaryPassword() {
-		int length = 8; // 생성할 임시 비밀번호의 길이
+		Random random = new Random();
+		
+		int length = random.nextInt(5)+8; // 생성할 임시 비밀번호의 길이(8자 ~ 12자)
 		String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"; // 사용할 문자열 범위
 		StringBuilder sb = new StringBuilder();
 
-		Random random = new Random();
 		for (int i = 0; i < length; i++) {
 			int index = random.nextInt(characters.length());
 			sb.append(characters.charAt(index));
@@ -90,26 +95,26 @@ public class PasswordResetController {
 		return sb.toString();
 	}
 	
-	/* SHA-256 암호화 */
-	private static String encryptPassword(String password) {
-		try {
-			MessageDigest digest = MessageDigest.getInstance("SHA-256");
-			byte[] encodedHash = digest.digest(password.getBytes(StandardCharsets.UTF_8));
-
-			StringBuilder hexString = new StringBuilder();
-			for (byte b : encodedHash) {
-				String hex = Integer.toHexString(0xff & b);
-				if (hex.length() == 1) {
-					hexString.append('0');
-				}
-				hexString.append(hex);
-			}
-
-			return hexString.toString();
-		} catch (NoSuchAlgorithmException e) {
-			// 암호화 알고리즘을 찾을 수 없는 경우 처리
-			e.printStackTrace();
-			throw new IllegalArgumentException("암호화 알고리즘을 찾을 수 없습니다.");
-		}
-	}
+//	/* SHA-256 암호화 */
+//	private static String encryptPassword(String password) {
+//		try {
+//			MessageDigest digest = MessageDigest.getInstance("SHA-256");
+//			byte[] encodedHash = digest.digest(password.getBytes(StandardCharsets.UTF_8));
+//
+//			StringBuilder hexString = new StringBuilder();
+//			for (byte b : encodedHash) {
+//				String hex = Integer.toHexString(0xff & b);
+//				if (hex.length() == 1) {
+//					hexString.append('0');
+//				}
+//				hexString.append(hex);
+//			}
+//
+//			return hexString.toString();
+//		} catch (NoSuchAlgorithmException e) {
+//			// 암호화 알고리즘을 찾을 수 없는 경우 처리
+//			e.printStackTrace();
+//			throw new IllegalArgumentException("암호화 알고리즘을 찾을 수 없습니다.");
+//		}
+//	}
 }
