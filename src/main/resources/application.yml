@@ -10,14 +10,17 @@ server:
     session:
       timeout: 45m
       tracking-modes: cookie
+  ssl:
+    key-store: classpath:keystore.p12
+    key-store-type: PKCS12
+    key-store-password: donghun84
       
 springdoc:
   default-consumes-media-type: application/json
   default-produces-media-type: application/json
   swagger-ui:
     disable-swagger-default-url: true
-    display-query-params-without-oauth2: true
-    
+    display-query-params-without-oauth2: true    
     
 spring:
   servlet:
