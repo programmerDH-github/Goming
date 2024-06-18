@@ -8,6 +8,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
 
 import com.bside.BSIDE.jwt.exception.CustomAuthenticationEntryPoint;
 
@@ -60,6 +61,13 @@ public class WebConfig {
 			
 		return http.build();
 	}
+	
+    public void addCorsMappings(CorsRegistry registry) {
+        registry.addMapping("/**")
+                .allowedOrigins("http://localhost:8080")
+                .exposedHeaders("name","token")
+                .allowCredentials(true);
+    }
 	
 	@Bean
 	public PasswordEncoder passwordEncoder(){
